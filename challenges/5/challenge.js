@@ -25,8 +25,22 @@
     }
  */
 
-const posts = require('./posts.json')
+/*
+ O Enunciado aqui estava diferente dos testes, fiz esse exercício com o que imaginei que
+ fosse a entrada e comportamentos esperados
+ */
+const paginate = (posts, pageNumber = 1, itemsPerPage = 10) => {
+  if (!Array.isArray(posts)) {
+    throw `Expect array and got ${typeof posts}`
+  }
 
-const paginate = (pageNumber, itemsPerPage) => {}
+  return {
+    currentPage: pageNumber,
+    perPage: itemsPerPage,
+    total: posts.length,
+    totalPages: Math.ceil(posts.length / itemsPerPage),
+    data: posts.slice((pageNumber - 1) * itemsPerPage, pageNumber * itemsPerPage),
+  }
+}
 
 module.exports = paginate

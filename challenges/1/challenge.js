@@ -17,6 +17,13 @@
  * a > b sempre.
  */
 
-const MDC = (a, b) => {}
+const MDC = (a, b) => {
+  if ([a, b].includes(0)) return a || b
+
+  const larger = a > b ? a : b
+  const smaller = a > b ? b : a
+
+  return MDC(smaller, larger % smaller)
+}
 
 module.exports = MDC

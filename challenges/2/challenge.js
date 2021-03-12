@@ -52,6 +52,34 @@
  *  }
  */
 
-const normalizeData = unormalized => {}
+const normalizeData = ({ id, user, reports }) => {
+  return {
+    results: {
+      [id]: {
+        id,
+        user: user.id,
+        reports: reports.map(({ id }) => id),
+      },
+    },
+    users: {
+      [user.id]: {
+        id: user.id,
+        name: user.name,
+      },
+    },
+    reports: reports.reduce(
+      (accumulator, { id: reportId, result }) => ({
+        ...accumulator,
+        [reportId]: {
+          id: reportId,
+          user: user.id,
+          document: result.document,
+          status: result.status,
+        },
+      }),
+      {},
+    ),
+  }
+}
 
 module.exports = normalizeData

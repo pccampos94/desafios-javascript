@@ -26,8 +26,21 @@
  * }
  */
 
-const extractSize = htmlTemplate => {}
+const matchWithWord = (field, word) => {
+  const baseRegexp = new RegExp(`${field}:\\s?(\\d+)`, 'g')
+  const baseMatch = word.match(baseRegexp)
 
-module.exports = extractSize;
+  return baseMatch && baseMatch[0].match(`(?!${field}:\\s?)(\\d+)`)
+}
 
+const extractSize = (htmlTemplate) => {
+  const height = matchWithWord('height', htmlTemplate)
+  const width = matchWithWord('width', htmlTemplate)
 
+  return {
+    height: height ? +height[0] : 0,
+    width: width ? +width[0] : 0,
+  }
+}
+
+module.exports = extractSize
